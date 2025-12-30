@@ -1,15 +1,17 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
 
-import modelUrl from "../assets/models/cake1.glb";
+import modelUrl from "../assets/models/cake2.glb";
 import music from "../assets/audios/hbd.mp3";
+import girl from "../assets/images/cakegirl.png";
 
 const ThreeScene = () => {
   const mountRef = useRef(null);
   const audioRef = useRef(null);
   const unmuteTimerRef = useRef(null);
+  const [call,setCall] = useState(false);
 
   // 🎶 Background music (try autoplay muted → unmute)
   useEffect(() => {
@@ -154,7 +156,7 @@ const ThreeScene = () => {
     const loader = new GLTFLoader();
     loader.load(modelUrl, (gltf) => {
       cake = gltf.scene;
-      cake.scale.set(0.4, 0.8, 0.4);
+      cake.scale.set(0.4, 0.55, 0.4);
 
       const box = new THREE.Box3().setFromObject(cake);
       const center = box.getCenter(new THREE.Vector3());
@@ -227,8 +229,15 @@ const ThreeScene = () => {
         mount.removeChild(renderer.domElement);
       }
     };
+
+    
   }, []);
 
+  useEffect(()=>{
+    setTimeout(() => {
+          setCall(true)
+    }, 10000);
+  },[])
   return (
     <div style={{ position: "relative", width: "100%", height: "100vh" }}>
       {/* Birthday text overlay */}
@@ -250,6 +259,20 @@ const ThreeScene = () => {
         🎉 Happy Birthday 🎉
         <div>Suganthi</div>
       </div>
+
+        {
+          call && (
+          <div className="absolute bottom-20 right-2 ">
+            <button className="bg-orange-600 text-white rounded-full shadow p-3">
+              <a href="tel:+919384591394">Tap here</a>
+            </button>
+          </div>
+          )
+        }
+        <div className="flex flex-col absolute bottom-32 left-0 h-24 w-24 m-1">
+          <img className="" src={girl} alt="" />    
+          <p className="w-36 text-orange-500 border text-center bg-white rounded-full p-2 shadow">This is for you, let’s eat.</p>
+        </div>
 
       <div ref={mountRef} style={{ width: "100%", height: "100%" }} />
     </div>
