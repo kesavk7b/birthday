@@ -236,7 +236,7 @@ const ThreeScene = () => {
   useEffect(()=>{
     setTimeout(() => {
           setCall(true)
-    }, 10000);
+    }, 5000);
   },[])
   return (
     <div style={{ position: "relative", width: "100%", height: "100vh" }}>
